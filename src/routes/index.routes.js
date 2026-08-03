@@ -1,14 +1,13 @@
 import { Router } from "express";
-import visitasRouter from "./visitas.routes.js";
-import tractoresRouter from "./tractores.routes.js";
+import entrenamientosRouter from "./entrenamientos.routes.js";
 
 const router = Router();
 
 router.get("/", (req, res) => {
-  res.json({ message: "API funcionando" });
+  res.json({ message: "API Agenda Entrenamiento funcionando" });
 });
 
-router.use("/visitas", visitasRouter);
-router.use("/tractores", tractoresRouter);
+router.use("/entrenamientos", entrenamientosRouter);
+router.use("/visitas", entrenamientosRouter); // Alias de compatibilidad
 
 export default router;
