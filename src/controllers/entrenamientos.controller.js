@@ -7,6 +7,7 @@ export const listar = async (req, res) => {
     const entrenamientos = await Entrenamiento.find(filtro).sort({ fecha: 1, createdAt: 1 });
     res.json(entrenamientos);
   } catch (e) {
+    console.error("Error al listar entrenamientos:", e);
     res.status(500).json({ error: e.message });
   }
 };
@@ -14,6 +15,9 @@ export const listar = async (req, res) => {
 export const crear = async (req, res) => {
   try {
     const act = req.body.actividad || req.body.grupo || "";
+    if (!req.body.fecha || !act) {
+      return res.status(400).json({ error: "Fecha y actividad son requeridas" });
+    }
     const data = {
       fecha: req.body.fecha,
       actividad: act,
@@ -23,7 +27,8 @@ export const crear = async (req, res) => {
     const nuevo = await Entrenamiento.create(data);
     res.status(201).json(nuevo);
   } catch (e) {
-    res.status(400).json({ error: e.message });
+    console.error("Error al crear entrenamiento:", e);
+    res.status(500).json({ error: "No se pudo guardar el entrenamiento", message: e.message });
   }
 };
 
@@ -33,6 +38,7 @@ export const eliminar = async (req, res) => {
     if (!item) return res.status(404).json({ error: "Entrenamiento no encontrado" });
     res.json({ ok: true });
   } catch (e) {
+    console.error("Error al eliminar entrenamiento:", e);
     res.status(500).json({ error: e.message });
   }
 };

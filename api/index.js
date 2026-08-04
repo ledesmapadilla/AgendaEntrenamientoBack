@@ -12,14 +12,15 @@ app.use(morgan("dev"));
 
 const MONGODB_URI = process.env.MONGODB || "mongodb+srv://joseignacioledesmapadilla_db_user:TpEKMYE5Uo1zxQNx@cluster0.jls24lq.mongodb.net/dbAgendaEntrenamiento";
 
-let isConnected = false;
 app.use(async (req, res, next) => {
-  if (!isConnected && mongoose.connection.readyState < 1) {
+  if (mongoose.connection.readyState !== 1) {
     try {
-      await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
-      isConnected = true;
+      await mongoose.connect(MONGODB_URI, {
+        serverSelectionTimeoutMS: 5000,
+      });
     } catch (err) {
-      console.error("MongoDB Error:", err);
+      console.error("MongoDB Connection Error:", err);
+      return res.status(500).json({ error: "Error de conexión a la base de datos", detail: err.message });
     }
   }
   next();
