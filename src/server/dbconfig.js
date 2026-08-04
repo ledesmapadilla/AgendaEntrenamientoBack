@@ -19,11 +19,17 @@ if (fs.existsSync(envPath)) {
 
 const MONGODB_URI = process.env.MONGODB || "mongodb+srv://joseignacioledesmapadilla_db_user:TpEKMYE5Uo1zxQNx@cluster0.jls24lq.mongodb.net/dbAgendaEntrenamiento";
 
+let isConnected = false;
+
 async function connectDB() {
+  if (isConnected || mongoose.connection.readyState >= 1) {
+    return;
+  }
   try {
     await mongoose.connect(MONGODB_URI, {
       serverSelectionTimeoutMS: 5000,
     });
+    isConnected = true;
     console.info(
       `Base de datos ${mongoose.connection.name.green} conectada exitosamente`,
     );
