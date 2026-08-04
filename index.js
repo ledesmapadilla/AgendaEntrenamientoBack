@@ -26,6 +26,7 @@ app.use(async (req, res, next) => {
 });
 
 app.use("/api", router);
+app.use("/", router);
 
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 3000;
