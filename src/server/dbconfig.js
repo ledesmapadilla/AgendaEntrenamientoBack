@@ -17,16 +17,21 @@ if (fs.existsSync(envPath)) {
   });
 }
 
-const MONGODB_URI = process.env.MONGODB || "mongodb+srv://joseignacioledesmapadilla_db_user:TpEKMYE5Uo1zxQNx@cluster0.jls24lq.mongodb.net/dbAgendaEntrenamiento";
+const MONGODB_URI = process.env.MONGODB;
 
 let isConnected = false;
 
 async function connectDB() {
+  if (!MONGODB_URI) {
+    console.error("Variable MONGODB no configurada");
+    return;
+  }
   if (isConnected || mongoose.connection.readyState >= 1) {
     return;
   }
   try {
     await mongoose.connect(MONGODB_URI, {
+      maxPoolSize: 5,
       serverSelectionTimeoutMS: 5000,
     });
     isConnected = true;

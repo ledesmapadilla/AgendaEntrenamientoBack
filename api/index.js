@@ -22,12 +22,14 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-const MONGODB_URI = process.env.MONGODB || "mongodb+srv://joseignacioledesmapadilla_db_user:TpEKMYE5Uo1zxQNx@cluster0.jls24lq.mongodb.net/dbAgendaEntrenamiento";
+const MONGODB_URI = process.env.MONGODB;
 
 app.use(async (req, res, next) => {
   try {
+    if (!MONGODB_URI) throw new Error("Variable MONGODB no configurada");
     if (mongoose.connection.readyState !== 1) {
       await mongoose.connect(MONGODB_URI, {
+        maxPoolSize: 5,
         serverSelectionTimeoutMS: 8000,
       });
     }
