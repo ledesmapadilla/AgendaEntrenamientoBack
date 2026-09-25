@@ -6,6 +6,7 @@ const EntrenamientoSchema = new Schema(
     actividad:     { type: String, trim: true, default: "" },    // Natación pileta, Gimnasio, etc.
     grupo:         { type: String, trim: true, default: "" },    // alias para compatibilidad
     observaciones: { type: String, trim: true, default: "" },
+    cantidad:      { type: Number, default: 0 },
   },
   { timestamps: true }
 );

@@ -22,7 +22,8 @@ export const crear = async (req, res) => {
       fecha: req.body.fecha,
       actividad: act,
       grupo: act,
-      observaciones: req.body.observaciones || ""
+      observaciones: req.body.observaciones || "",
+      cantidad: Number(req.body.cantidad) || 0
     };
     const nuevo = await Entrenamiento.create(data);
     res.status(201).json(nuevo);

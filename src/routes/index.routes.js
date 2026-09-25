@@ -1,5 +1,6 @@
 import { Router } from "express";
 import entrenamientosRouter from "./entrenamientos.routes.js";
+import planRouter from "./plan.routes.js";
 
 const router = Router();
 
@@ -9,5 +10,6 @@ router.get("/", (req, res) => {
 
 router.use("/entrenamientos", entrenamientosRouter);
 router.use("/visitas", entrenamientosRouter); // Alias de compatibilidad
+router.use("/plan", planRouter);
 
 export default router;
